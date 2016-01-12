@@ -7,8 +7,10 @@
             <input ng-model="ticket.author" type="text" placeholder="Author">
             <input ng-model="ticket.client" type="text" placeholder="Client">
             <input ng-model="ticket.urgency" type="text" placeholder="Urgency">
-            <input ng-model="ticket.status" type="text" placeholder="Status">
+            <select ng-options="option for option in status_options" ng-model="ticket.status">
+            </select>
             <input ng-model="ticket.assigned" type="text" placeholder="Assigned To">
+            
         	<input type="submit" value="create" ng-click="addTicket()" ng-if="!editmode">
         	<input type="submit" value="update" ng-click="updateTicket()" ng-if="editmode">
         </form>

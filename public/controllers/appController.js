@@ -70,7 +70,9 @@ app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeo
     if(state == "new_ticket"){
     
         $scope.header = "Create a new Ticket";
-        
+        $scope.status_options = ['Pending','Unsolved','Solved'];
+//         $scope.status_options = [{value: 'Pending', name: 'Pending'},{value: 'Unsolved', name: 'Unsolved'},{value: 'Solved', name: 'Solved'}];
+
         $scope.addTicket = function () {
             $http.post('/tickets', $scope.ticket).success(function (res) {
                 console.log('ticket added');
