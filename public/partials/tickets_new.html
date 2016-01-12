@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="medium-8 columns">
+        <h1>{{header}}</h1>
+        <form novalidate>
+            <input ng-model="ticket.title" type="text" placeholder="Title">
+            <textarea rows="9" ng-model="ticket.description" placeholder="Description"></textarea>
+            <input ng-model="ticket.author" type="text" placeholder="Author">
+            <input ng-model="ticket.client" type="text" placeholder="Client">
+            <input ng-model="ticket.urgency" type="text" placeholder="Urgency">
+            <input ng-model="ticket.status" type="text" placeholder="Status">
+            <input ng-model="ticket.assigned" type="text" placeholder="Assigned To">
+        	<input type="submit" value="create" ng-click="addTicket()" ng-if="!editmode">
+        	<input type="submit" value="update" ng-click="updateTicket()" ng-if="editmode">
+        </form>
+        <div id="form_message" ng-class="message_class">{{message}}</div>
+    </div>
+</div>

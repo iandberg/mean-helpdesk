@@ -1,0 +1,9 @@
+GET     /photos             get all photos
+*GET     /photos/new         get the form for a new photo
+POST    /photos/new         create a new photo
+GET     /photos/:id         get a specific photo
+*GET     /photos/:id/edit    get the form to update specific photo
+PUT     /photos/:id         update a specific photo
+DELETE  /photos/:id         delete specific photo
+
+*Angular only - API not needed (use same form as well)

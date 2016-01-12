@@ -1,0 +1,38 @@
+
+/* =-=-=-=-=-=-=-[ ng-animate stuff ]=-=-=-=-=-=-=- */
+
+
+[ui-view].ng-enter, [ui-view].ng-leave {
+	 -webkit-transition: 1s linear all;
+	 transition: 1s linear all; /* All other modern browsers and IE10+ */
+}
+
+.ng-enter.ng-enter-active,
+.ng-leave{
+	 opacity: 1;
+}
+
+.ng-enter,
+.ng-leave.ng-leave-active{
+	 opacity: 0;
+}
+
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+
+[type=text], [type=password], [type=date], [type=datetime], [type=datetime-local], [type=month], [type=week], [type=email], [type=tel], [type=time], [type=url], [type=color], [type=number], [type=search], textarea{
+	color: #000;
+}
+
+.callout ul{
+	list-style: none;
+}
+
+#form_message{
+	margin-top: 20px;
+}
+
+#form_message.hide_message{
+	 -webkit-transition: 1s linear opacity;
+	 transition: 1s linear opacity; /* All other modern browsers and IE10+ */
+	opacity: 0;
+}

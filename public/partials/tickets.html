@@ -1,0 +1,21 @@
+<div class="row" id="content">
+    <div class="medium-3 columns">
+        categories here
+    </div>
+	<div class="medium-8 columns">
+
+		<div class="blog-post" ng-repeat="ticket in tickets">
+			<a ui-sref="single_ticket({id: ticket._id})">
+			<h3>{{ticket.title}}</h3>
+			</a>
+			<div class="callout">
+				<ul>
+				    <li>{{ticket.created_on | formatDate}}</li>
+					<li>From {{ticket.author}}</li>
+				</ul>
+			</div>
+			<p>{{ticket.description | truncateDesc}}</p>
+		</div>
+
+    </div>
+</div>

@@ -1,0 +1,27 @@
+{
+  "name": "meanhelpdesk",
+  "authors": [
+    "Ian <ian@argoworks.com>"
+  ],
+  "description": "a help desk app",
+  "main": "",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "foundation": "~5.5.3",
+    "angular-animate": "~1.4.8",
+    "angular-ui-router": "~0.2.15",
+    "moment": "~2.11.1"
+  }
+}
