@@ -42,21 +42,62 @@ app.filter('truncateDesc', function () {
 
 app.filter('formatDate', function () {
     return function (date) {
-        return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+        return moment(date).calendar();
     }
 });
+
+app.filter('regex', function () {
+    return function (data, field, regex) {
+
+        if(field && regex){
+            result = [];
+            var expression = new RegExp(regex);
+        
+            for(var i=0; i < data.length; i++){
+                if(expression.test(data[i][field])){ //apply regex pattern to the field in question
+                    result.push(data[i]); //if it passes muster, add to outgoing result
+                }
+            }
+            return result;
+        }else{
+            return data;
+        }
+    }
+});
+
 
 // =-=-=-=-=-=-=-[ controllers ]=-=-=-=-=-=-=-
 
 //home page
 app.controller('appCtrl', ['$scope','$http', function ($scope, $http) {
-    var getTickets = function () {
+
+    $scope.getTickets = function () {
         $http.get('/tickets').success(function (res) {
             $scope.tickets = res;
         });
     }
     
-    getTickets();
+    $scope.getUnsolved = function () {
+        $http.get('/tickets/unsolved').success(function (res) {
+            $scope.tickets = res;
+        });
+    }    
+    
+    $scope.statusClass =function (status) {
+        switch(true){
+            case status == 'Unsolved':
+                return 'warning'
+            case status == 'Solved':
+                return 'success'
+            case status == 'Pending':
+                return 'secondary'
+            default:
+                return '';
+        }    
+    };
+    
+    $scope.search_criteria = {};
+    $scope.getTickets(); //initial page load
 }]);
 
 // for create and update
@@ -70,8 +111,6 @@ app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeo
     if(state == "new_ticket"){
     
         $scope.header = "Create a new Ticket";
-        $scope.status_options = ['Pending','Unsolved','Solved'];
-//         $scope.status_options = [{value: 'Pending', name: 'Pending'},{value: 'Unsolved', name: 'Unsolved'},{value: 'Solved', name: 'Solved'}];
 
         $scope.addTicket = function () {
             $http.post('/tickets', $scope.ticket).success(function (res) {
@@ -83,6 +122,7 @@ app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeo
         
         $scope.header = "Update Ticket";
         $scope.editmode = true; //switch to true for the conditional in the partial
+        $scope.status_options = ['Pending','Unsolved','Solved']; //you can only set these options when editing
         
         $http.get('/tickets/'+ $stateParams.id).success(function (res) {
             $scope.ticket = res;

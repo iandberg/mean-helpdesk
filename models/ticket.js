@@ -22,7 +22,8 @@ var ticketSchema = mongoose.Schema({
         type: String
     },
     status: { 
-        type: String
+        type: String,
+        default: 'Unsolved'
     },
     assigned: { 
         type: String

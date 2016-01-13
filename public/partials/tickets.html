@@ -1,21 +1,34 @@
 <div class="row" id="content">
     <div class="medium-3 columns">
-        categories here
+        <p>View</p>
+        <ul>
+            <li>
+                <a ng-click="search_criteria = {}">All Tickets</a>
+            </li>
+            <li>
+                <a ng-click="search_criteria = {field: 'status', regex: 'Unsolved'}">Unsolved Tickets</a>        
+            </li>
+            <li>
+                <a ng-click="search_criteria = {field: 'status', regex: '^Solved'}">Solved Tickets</a>        
+            </li>
+            <li>
+                <a ng-click="search_criteria = {field: 'status', regex: '^Pending'}">Pending Tickets</a>        
+            </li>
+        </ul>
     </div>
 	<div class="medium-8 columns">
 
-		<div class="blog-post" ng-repeat="ticket in tickets">
-			<a ui-sref="single_ticket({id: ticket._id})">
-			<h3>{{ticket.title}}</h3>
-			</a>
-			<div class="callout">
-				<ul>
-				    <li>{{ticket.created_on | formatDate}}</li>
-					<li>From {{ticket.author}}</li>
-				</ul>
-			</div>
-			<p>{{ticket.description | truncateDesc}}</p>
-		</div>
+		<div class="ticket callout" ng-repeat="ticket in tickets | regex: search_criteria.field: search_criteria.regex">
+            <a ui-sref="single_ticket({id: ticket._id})">
+            <h3>{{ticket.title}}</h3>
+            </a>
+            <ul>
+                <li>{{ticket.created_on | formatDate}}</li>
+                <li>By {{ticket.author}}</li>
+                <li ng-class="statusClass(ticket.status)" class="button">{{ticket.status}}</li>
+            </ul>
+            <p>{{ticket.description | truncateDesc}}</p>
+        </div>
 
     </div>
 </div>

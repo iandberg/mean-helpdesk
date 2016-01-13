@@ -2,9 +2,10 @@
 /* =-=-=-=-=-=-=-[ ng-animate stuff ]=-=-=-=-=-=-=- */
 
 
-[ui-view].ng-enter, [ui-view].ng-leave {
-	 -webkit-transition: 1s linear all;
-	 transition: 1s linear all; /* All other modern browsers and IE10+ */
+[ui-view].ng-enter,
+[ui-view].ng-leave {
+	 -webkit-transition: .5s linear all;
+	 transition: .5s linear all; /* All other modern browsers and IE10+ */
 }
 
 .ng-enter.ng-enter-active,
@@ -17,13 +18,37 @@
 	 opacity: 0;
 }
 
+/* tickets */
+
+/* 
+arriving element:
+ng-enter immediately followed by ng-enter-active
+
+going away:
+ng-leave immediately followed ng-leave-active
+ */
+
+.ticket{
+	 -webkit-transition: .5s linear all;
+	 transition: .5s linear all; /* All other modern browsers and IE10+ */
+}
+
+.ticket.ng-enter,/* start, when arriving */
+.ticket.ng-leave.ng-leave-active{ /* finish, when leaving */
+	max-height: 0;
+}
+.ticket.ng-leave,/* start, when leaving */
+.ticket.ng-enter.ng-enter-active{ /* finish, when arriving */
+	max-height: 300px;
+}
+
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
 [type=text], [type=password], [type=date], [type=datetime], [type=datetime-local], [type=month], [type=week], [type=email], [type=tel], [type=time], [type=url], [type=color], [type=number], [type=search], textarea{
 	color: #000;
 }
 
-.callout ul{
+ul{
 	list-style: none;
 }
 
@@ -35,4 +60,8 @@
 	 -webkit-transition: 1s linear opacity;
 	 transition: 1s linear opacity; /* All other modern browsers and IE10+ */
 	opacity: 0;
+}
+
+form.ng-invalid [type=submit]{
+	opacity: .5;
 }

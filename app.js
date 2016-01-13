@@ -24,14 +24,20 @@ app.get('/', function (req, res) {
 
 var Ticket = require('./models/ticket');
 
-app.get('/tickets', function (req, res) { //for testing
-    Ticket.find(function (err, tickets) {
+app.get('/tickets', function (req, res) {
+    Ticket.find().sort('-created_on').exec(function (err, tickets) {
+        res.json(tickets);
+    });
+});
+
+app.get('/tickets/unsolved', function (req, res) {
+    Ticket.find({status: 'Unsolved'}).exec(function (err, tickets) {
+        console.log('are we here');
         res.json(tickets);
     });
 });
 
 app.post('/tickets', function (req, res) {
-    console.log(req.body);
     Ticket.create(req.body, function (err) {
         console.log('ticket saved');
     });
@@ -45,12 +51,12 @@ app.get('/tickets/:id', function (req, res) {
 });
 
 app.put('/tickets/:id', function (req, res) {
-    console.log(req.body);
     Ticket.findOneAndUpdate({_id: req.params.id}, req.body, function (err, ticket) {
         console.log('updated ' + ticket.title);
     });
     res.end();
 });
+
 
 
 // =-=-=-=-=-=-=-[ 404 fallback ]=-=-=-=-=-=-=-
