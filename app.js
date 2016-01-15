@@ -23,16 +23,16 @@ app.get('/', function (req, res) {
 // =-=-=-=-=-=-=-[ RESTful API routes ]=-=-=-=-=-=-=-
 
 var Ticket = require('./models/ticket');
+var User = require('./models/user');
 
 app.get('/tickets', function (req, res) {
-    Ticket.find().sort('-created_on').exec(function (err, tickets) {
+    Ticket.findAllRecent(function (err, tickets) { // static method defined in model file
         res.json(tickets);
     });
 });
 
-app.get('/tickets/unsolved', function (req, res) {
-    Ticket.find({status: 'Unsolved'}).exec(function (err, tickets) {
-        console.log('are we here');
+app.get('/tickets/unsolved', function (req, res) { //not in use
+    Ticket.findUnsolved(function (err, tickets) {
         res.json(tickets);
     });
 });
@@ -57,6 +57,25 @@ app.put('/tickets/:id', function (req, res) {
     res.end();
 });
 
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+app.get('/users', function (req, res) {
+    User.find().exec(function (err, users) {
+        res.json(users);
+    });
+});
+
+app.get('/users/:id', function (req, res) {
+    User.findOne({_id: req.params.id}, function (err, user) {
+        res.json(user.name.full); //using a 'virtual' method to combine first and last name
+    });
+});
+
+app.post('/users', function (req, res) {
+    User.create(req.body, function (err) {
+        console.log('user saved');
+    });
+});
 
 
 // =-=-=-=-=-=-=-[ 404 fallback ]=-=-=-=-=-=-=-

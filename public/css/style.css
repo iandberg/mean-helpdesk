@@ -1,6 +1,24 @@
 
 /* =-=-=-=-=-=-=-[ ng-animate stuff ]=-=-=-=-=-=-=- */
 
+@-webkit-keyframes fadeIn{
+	from {opacity: 0;filter: alpha(opacity=0)}
+	to {opacity: 1;filter: alpha(opacity=100)}
+}
+@keyframes fadeIn{
+	from {opacity: 0;filter: alpha(opacity=0)}
+	to {opacity: 1;filter: alpha(opacity=100)}
+}
+@-webkit-keyframes fadeOut{
+	from {opacity: 1;filter: alpha(opacity=100)}
+	to {opacity: 0;filter: alpha(opacity=0)}
+}
+@keyframes fadeOut{
+	from {opacity: 1;filter: alpha(opacity=100)}
+	to {opacity: 0;filter: alpha(opacity=0)}
+}
+
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
 
 [ui-view].ng-enter,
 [ui-view].ng-leave {
@@ -8,15 +26,26 @@
 	 transition: .5s linear all; /* All other modern browsers and IE10+ */
 }
 
-.ng-enter.ng-enter-active,
+.ng-enter-active,
 .ng-leave{
 	 opacity: 1;
 }
 
 .ng-enter,
-.ng-leave.ng-leave-active{
+.ng-leave-active{
 	 opacity: 0;
 }
+
+/* 
+.ng-leave{
+	-webkit-animation-name: fadeOut;
+	        animation-name: fadeOut;
+}
+.ng-enter{
+	-webkit-animation-name: fadeIn;
+	        animation-name: fadeIn;
+}
+ */
 
 /* tickets */
 
@@ -29,8 +58,8 @@ ng-leave immediately followed ng-leave-active
  */
 
 .ticket{
-	 -webkit-transition: .5s linear all;
-	 transition: .5s linear all; /* All other modern browsers and IE10+ */
+	-webkit-transition: .5s linear all;
+	transition: .5s linear all; /* All other modern browsers and IE10+ */
 }
 
 .ticket.ng-enter,/* start, when arriving */

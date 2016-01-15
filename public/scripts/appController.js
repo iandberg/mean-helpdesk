@@ -1,4 +1,4 @@
-var app = angular.module('app',['ui.router','ngAnimate']);
+var app = angular.module('app',['ui.router','ngAnimate','ngMessages']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -21,8 +21,18 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('edit_ticket',{
             url: '/tickets/:id/edit',
-            templateUrl: "/partials/tickets_new.html",
+            templateUrl: "/partials/tickets_edit.html",
             controller: 'editTicket'
+        })
+        .state('users',{
+            url: '/users',
+            templateUrl: "/partials/users.html",
+            controller: 'allUsers'
+        })
+        .state('new_user',{
+            url: '/users/new',
+            templateUrl: "/partials/user_edit.html",
+            controller: 'editUser'
         })
 });
 
@@ -65,6 +75,19 @@ app.filter('regex', function () {
     }
 });
 
+// =-=-=-=-=-=-=-[ directives ]=-=-=-=-=-=-=-
+
+app.directive('confPassword', function () { //custom directive for validating the confirmation password
+    return {
+        require: 'ngModel',
+        link: function (scope, elem, attr, ngmodel) {
+            ngmodel.$validators.comparepass = function () { //we add a validator
+                console.log(scope.user.password_conf, scope.user.password);
+                return scope.user.password_conf === scope.user.password;
+            }
+        }
+    };
+});
 
 // =-=-=-=-=-=-=-[ controllers ]=-=-=-=-=-=-=-
 
@@ -100,56 +123,5 @@ app.controller('appCtrl', ['$scope','$http', function ($scope, $http) {
     $scope.getTickets(); //initial page load
 }]);
 
-// for create and update
-app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeout', function ($scope, $http, $state, $stateParams, $timeout) {
 
-    var state = $state.current.name; //get the state name
-    $scope.state = state;
-    $scope.editmode = false; //to dynamically show the correct submit button in the partial
-    
-    //we handle both creating and updating here, using same partial
-    if(state == "new_ticket"){
-    
-        $scope.header = "Create a new Ticket";
 
-        $scope.addTicket = function () {
-            $http.post('/tickets', $scope.ticket).success(function (res) {
-                console.log('ticket added');
-            });
-        };
-
-    }else if(state == "edit_ticket"){
-        
-        $scope.header = "Update Ticket";
-        $scope.editmode = true; //switch to true for the conditional in the partial
-        $scope.status_options = ['Pending','Unsolved','Solved']; //you can only set these options when editing
-        
-        $http.get('/tickets/'+ $stateParams.id).success(function (res) {
-            $scope.ticket = res;
-        });
-
-        $scope.updateTicket = function () {
-            $http.put('/tickets/'+$scope.ticket._id, $scope.ticket).success(function (res) {
-                console.log('ticket updated');
-                $scope.message_class = ['success','callout'];
-                $scope.message = "Ticket updated";
-            });
-
-            $timeout(function () {// remove update message
-                $scope.message_class = 'hide_message';
-            },5000);
-        };
-       
-    }
-
-    
-}]);
-
-// show single ticket
-app.controller('showTicket',['$scope','$http','$stateParams',function ($scope, $http, $stateParams) {
-
-    $http.get('/tickets/'+ $stateParams.id).success(function (res) {
-        $scope.ticket = res;
-    });
-
-}]);

@@ -43,7 +43,16 @@ var ticketSchema = mongoose.Schema({
 });
 
 // add methods to schema
-ticketSchema.methods.showTitle = function () {
+
+ticketSchema.statics.findAllRecent = function (cb) { //static method
+	this.find().sort('-created_on').exec(cb);
+}
+
+ticketSchema.statics.findUnsolved = function (callback) { //not in use
+	this.find({status: 'Unsolved'}).exec(callback);
+}
+
+ticketSchema.methods.showTitle = function () { //instance method example
     var message = this.title 
         ? "ticket title: " + this.title 
         : "no title";
