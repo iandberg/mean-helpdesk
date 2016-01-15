@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="medium-5 medium-centered columns">
+        <h1>{{header}}</h1>
+        <form novalidate name="ticket_form" id="edit_ticket">
+            <div class="val_status">
+                <div ng-show="ticket_form.title.$error.required" class="required"><i class="fa fa-asterisk"></i></div>
+                <div ng-show="!ticket_form.title.$error.required" class="check"><i class="fa fa-check"></i></div>
+            </div>
+            <input ng-model="ticket.title" name="title" type="text" placeholder="Subject" required>
+            
+            <div class="val_status">
+                <div ng-show="ticket_form.description.$error.required" class="required"><i class="fa fa-asterisk"></i></div>
+                <div ng-show="!ticket_form.description.$error.required" class="check"><i class="fa fa-check"></i></div>
+            </div>
+            <textarea rows="9" ng-model="ticket.description" name="description" type="text" placeholder="Describe the issue" required></textarea>
+
+            <div class="val_status">
+                <div ng-show="ticket_form.author.$error.required" class="required"><i class="fa fa-asterisk"></i></div>
+                <div ng-show="!ticket_form.author.$error.required" class="check"><i class="fa fa-check"></i></div>
+            </div>
+            <input ng-model="ticket.author" name="author" type="text" placeholder="Author" required>
+
+            <div class="val_status">
+                <div ng-show="ticket_form.client.$error.required" class="required"><i class="fa fa-asterisk"></i></div>
+                <div ng-show="!ticket_form.client.$error.required" class="check"><i class="fa fa-check"></i></div>
+            </div>
+            <input ng-model="ticket.client" name="client" type="text" placeholder="Client Name/Website" required>
+
+            <div class="val_status">
+                <div ng-show="ticket_form.urgency.$error.required" class="required"><i class="fa fa-asterisk"></i></div>
+                <div ng-show="!ticket_form.urgency.$error.required" class="check"><i class="fa fa-check"></i></div>
+            </div>
+            <input ng-model="ticket.urgency" name="urgency" type="text" placeholder="Priority" required>
+
+<!--             show status and assigned if in edit mode -->
+            <input ng-model="ticket.assigned" ng-if="editmode" type="text" placeholder="Assigned To" required>
+
+            <label for="status" ng-if="editmode">Status</label>
+            <select ng-options="option for option in status_options" ng-model="ticket.status" ng-if="editmode" required>
+            </select>
+
+<!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=- -->
+
+        	<input  type="submit" 
+                    value="create" 
+                    ng-click="addTicket()" 
+                    ng-disabled="ticket_form.$invalid" 
+                    ng-if="!editmode">
+                    
+        	<input  type="submit"
+        	        value="update" 
+        	        ng-click="updateTicket()"
+                    ng-disabled="ticket_form.$invalid" 
+        	        ng-if="editmode">
+        </form>
+        <div id="form_message" ng-class="message_class">{{message}}</div>
+    </div>
+</div>
+
+ticket_form.title.$error.required = <pre> {{ticket_form.title.$error.required | json}} </pre>

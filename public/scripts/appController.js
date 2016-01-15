@@ -11,7 +11,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('new_ticket',{
             url: '/tickets/new',
-            templateUrl: "/partials/tickets_new.html",
+            templateUrl: "/partials/ticket_edit.html",
             controller: 'editTicket'
         })
         .state('single_ticket',{

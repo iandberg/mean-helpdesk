@@ -1,6 +1,9 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var bcrypt = require('bcryptjs');
+
+
 
 // =-=-=-=-=-=-=-[ database ]=-=-=-=-=-=-=-
 
@@ -71,7 +74,9 @@ app.get('/users/:id', function (req, res) {
     });
 });
 
+
 app.post('/users', function (req, res) {
+    req.body.password = bcrypt.hashSync(req.body.password,3); //encrypt the password (put salt in external file)
     User.create(req.body, function (err) {
         console.log('user saved');
     });

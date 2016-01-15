@@ -5,9 +5,9 @@
         <h1>{{header}}</h1>
         <form novalidate name="user_form"> <!-- form name is an object with form stats in it, see submit buttons -->
             <input ng-model="user.name.first" name="first" type="text" placeholder="First Name" required>
-                <div ng-messages="user_form.first.$error" class="callout alert">
-                    <div ng-message="required">Required</div>
-                </div>
+            <div ng-messages="user_form.first.$error" class="callout alert">
+                <div ng-message="required">Required</div>
+            </div>
                 
             <input ng-model="user.name.last" name="last" type="text" placeholder="Last Name" required>
                 <div ng-messages="user_form.last.$error" class="callout alert">

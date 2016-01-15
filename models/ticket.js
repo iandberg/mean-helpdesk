@@ -26,7 +26,8 @@ var ticketSchema = mongoose.Schema({
         default: 'Unsolved'
     },
     assigned: { 
-        type: String
+        type: String,
+        default: 'Support'
     },
     comments: [{
         comment_body:{

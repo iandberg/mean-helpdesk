@@ -81,6 +81,9 @@ ul{
 	list-style: none;
 }
 
+
+/* =-=-=-=-=-=-=-[ forms ]=-=-=-=-=-=-=- */
+
 #form_message{
 	margin-top: 20px;
 }
@@ -93,4 +96,23 @@ ul{
 
 form.ng-invalid [type=submit]{
 	opacity: .5;
+}
+
+/* =-=-=-=-=-=-=-[ edit/create ticket ]=-=-=-=-=-=-=- */
+
+form#edit_ticket .val_status{
+	float: left;
+}
+
+form#edit_ticket input,
+form#edit_ticket textarea{
+	width: 92%;
+	float: right;
+}
+form#edit_ticket .val_status .required{
+	color: red;
+}
+
+form#edit_ticket .val_status .check{
+	color: green;
 }
