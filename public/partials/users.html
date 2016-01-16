@@ -19,7 +19,7 @@
 	<div class="medium-8 columns">
 
 		<div class="user callout" ng-repeat="user in users">
-            <a ui-sref="single_user({id: user._id})">
+            <a ui-sref="edit_user({id: user._id})">
             {{user._id}}
             <h3>{{user.name.first}}</h3>
             <h3>{{user.name.last}}</h3>

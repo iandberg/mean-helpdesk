@@ -1,13 +1,19 @@
 var express = require('express');
 var app = express();
+
 var bodyParser = require('body-parser');
 var bcrypt = require('bcryptjs');
+var session = require('express-session');
 
 
 
 // =-=-=-=-=-=-=-[ database ]=-=-=-=-=-=-=-
 
 require('./database'); //execute the database file
+
+// =-=-=-=-=-=-=-[ session ]=-=-=-=-=-=-=-
+
+app.use(session({secret: "sophie"}));
 
 // =-=-=-=-=-=-=-[ views and static files ]=-=-=-=-=-=-=-
 
@@ -29,6 +35,7 @@ var Ticket = require('./models/ticket');
 var User = require('./models/user');
 
 app.get('/tickets', function (req, res) {
+    console.log(req.session);
     Ticket.findAllRecent(function (err, tickets) { // static method defined in model file
         res.json(tickets);
     });
@@ -82,6 +89,32 @@ app.post('/users', function (req, res) {
     });
 });
 
+app.post('/login', function (req, res) {
+    var data = {};
+    
+    User.findOne({email: req.body.email}, function (err, user) {
+        if(user){
+            console.log(user.password);
+            if(bcrypt.compareSync(req.body.password, user.password)){ //compare submitted pass to user pass
+                console.log('logged in!'); //succesful login
+//                 if(!req.session.loggedIn){
+//                     req.session.loggedIn = true;
+//                     req.session.userName = user.name.first;
+//                     req.session.userID = user.id;
+//                 }
+                res.json(user);
+            }else{
+                console.log('one or both fields is not right');
+                data.error = 'one or both fields is not right';
+                res.json(data);
+            }  
+        }else{
+            console.log('cannot find user');
+            data.error = 'cannot find user';
+            res.json(data);
+        }
+    });
+});
 
 // =-=-=-=-=-=-=-[ 404 fallback ]=-=-=-=-=-=-=-
 

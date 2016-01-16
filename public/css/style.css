@@ -54,7 +54,7 @@ arriving element:
 ng-enter immediately followed by ng-enter-active
 
 going away:
-ng-leave immediately followed ng-leave-active
+ng-leave immediately followed by ng-leave-active
  */
 
 .ticket{
@@ -64,11 +64,11 @@ ng-leave immediately followed ng-leave-active
 
 .ticket.ng-enter,/* start, when arriving */
 .ticket.ng-leave.ng-leave-active{ /* finish, when leaving */
-	max-height: 0;
+/* 	max-height: 0; */
 }
 .ticket.ng-leave,/* start, when leaving */
 .ticket.ng-enter.ng-enter-active{ /* finish, when arriving */
-	max-height: 300px;
+/* 	max-height: 300px; */
 }
 
 /* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
@@ -90,7 +90,7 @@ ul{
 
 #form_message.hide_message{
 	 -webkit-transition: 1s linear opacity;
-	 transition: 1s linear opacity; /* All other modern browsers and IE10+ */
+	 transition: 1s linear opacity;
 	opacity: 0;
 }
 

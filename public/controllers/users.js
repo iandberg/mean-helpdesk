@@ -1,5 +1,25 @@
 // =-=-=-=-=-=-=-[ create/edit users ]=-=-=-=-=-=-=-
 
+app.controller('loginUser', function ($scope, $http, $state, $location, Session) {
+	
+	$scope.header = "Login";
+	
+	$scope.login = function () {
+		$http.post('/login', $scope.user).then(
+			function success(res) { //if we get something, check for error messages
+				if(res.data.error){
+					$scope.message = res.data.error;
+				}else{ //succesful login
+					Session.create(res.data); //user data to angular session var
+					$scope.setUserName(res.data.name.first) //set site-wide username via appCtrl function
+					$location.path('/'); //redirect to homepage
+				}
+			},function error(res) {
+				console.log(res.data);
+		});
+	}
+});
+
 app.controller('editUser', function ($scope, $http, $state, $stateParams) {
 	
 	var state = $state.current.name;
@@ -18,6 +38,8 @@ app.controller('editUser', function ($scope, $http, $state, $stateParams) {
 		
 	}else if(state == 'edit_user'){
 		$scope.editmode = true; //for enabling correct submit button in partial
+// 		$scope.user = get user here
+// 		define update user here
 	}
 
 });

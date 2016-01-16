@@ -7,7 +7,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state('home',{
             url: '/',
             templateUrl: "/partials/tickets.html",
-            controller: 'appCtrl'
+            controller: 'showTickets'
+        })
+        .state('login',{
+            url: '/login',
+            templateUrl: "/partials/login.html",
+            controller: 'loginUser'
         })
         .state('new_ticket',{
             url: '/tickets/new',
@@ -31,6 +36,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('new_user',{
             url: '/users/new',
+            templateUrl: "/partials/user_edit.html",
+            controller: 'editUser'
+        })
+        .state('edit_user',{
+            url: '/users/:id',
             templateUrl: "/partials/user_edit.html",
             controller: 'editUser'
         })
@@ -89,38 +99,35 @@ app.directive('confPassword', function () { //custom directive for validating th
     };
 });
 
-// =-=-=-=-=-=-=-[ controllers ]=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-[ services ]=-=-=-=-=-=-=-
 
-//home page
-app.controller('appCtrl', ['$scope','$http', function ($scope, $http) {
-
-    $scope.getTickets = function () {
-        $http.get('/tickets').success(function (res) {
-            $scope.tickets = res;
-        });
+app.service('Session', function () {
+    this.create = function (user) {
+        this.userID = user._id;
+        this.name = user.name.first;
+    },
+    this.destroy = function () {
+        this.userID = null;
+        this.name = null;
     }
+});
+
+// =-=-=-=-=-=-=-[ root controller ]=-=-=-=-=-=-=-
+
+app.controller('appCtrl', ['$scope','$http', 'Session', function ($scope, $http, Session) {
+
+    $scope.userName = null; //initialize user name, until someone logs in
+    // need to check node session for user, in case page is refreshed
     
-    $scope.getUnsolved = function () {
-        $http.get('/tickets/unsolved').success(function (res) {
-            $scope.tickets = res;
-        });
-    }    
-    
-    $scope.statusClass =function (status) {
-        switch(true){
-            case status == 'Unsolved':
-                return 'warning'
-            case status == 'Solved':
-                return 'success'
-            case status == 'Pending':
-                return 'secondary'
-            default:
-                return '';
-        }    
+    $scope.setUserName = function (name) { //available in all controller scopes
+        $scope.userName = name;
     };
     
-    $scope.search_criteria = {};
-    $scope.getTickets(); //initial page load
+    $scope.logout = function () {
+        Session.destroy();
+        $scope.userName = null;
+    };
+
 }]);
 
 

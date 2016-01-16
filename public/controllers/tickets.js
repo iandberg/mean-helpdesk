@@ -1,5 +1,38 @@
 // =-=-=-=-=-=-=-[ create/edit tickets ]=-=-=-=-=-=-=-
 
+// show all tickets
+app.controller('showTickets', function ($scope, $http) {
+    $scope.getTickets = function () {
+        $http.get('/tickets').success(function (res) {
+            $scope.tickets = res;
+        });
+    }
+    
+    $scope.getUnsolved = function () {
+        $http.get('/tickets/unsolved').success(function (res) {
+            $scope.tickets = res;
+        });
+    }    
+    
+    $scope.statusClass = function (status) {
+        switch(true){
+            case status == 'Unsolved':
+                return 'warning'
+            case status == 'Solved':
+                return 'success'
+            case status == 'Pending':
+                return 'secondary'
+            default:
+                return '';
+        }    
+    };
+
+    $scope.search_criteria = {};
+    $scope.getTickets(); //initial page load
+
+});
+
+// edit/create ticket
 app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeout', function ($scope, $http, $state, $stateParams, $timeout) {
 
     var state = $state.current.name; //get the state name

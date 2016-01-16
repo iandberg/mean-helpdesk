@@ -6,10 +6,19 @@
     ul.menu
       li
         a(ui-sref='home') Home
-      li
-        a(ui-sref='home') Log In
+        
+      li(ng-if='userName') 
+        | Welcome {{userName}}
+        
+      li(ng-if='!userName') 
+        a(ui-sref='login') Log In
+        
+      li(ng-if='userName') 
+        a(ng-click='logout()') Log Out
+        
       li
         a(ui-sref='new_user') New Account
+        
       li
         a(ui-sref='new_ticket') New Ticket
         

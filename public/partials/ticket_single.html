@@ -11,6 +11,7 @@
 				</ul>
 			</div>
 			<p>{{ticket.description}}</p>
+			<div ng-repeat="ticket.comments"></div>
 		</div>
         <a ui-sref="edit_ticket({id: ticket._id})">Edit Ticket</a>
     </div>
