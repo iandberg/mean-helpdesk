@@ -38,8 +38,6 @@ app.controller('editUser', function ($scope, $http, $state, $stateParams) {
 		
 	}else if(state == 'edit_user'){
 		$scope.editmode = true; //for enabling correct submit button in partial
-// 		$scope.user = get user here
-// 		define update user here
 	}
 
 });

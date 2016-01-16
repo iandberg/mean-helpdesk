@@ -79,8 +79,20 @@ app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeo
 // show single ticket
 app.controller('showTicket',['$scope','$http','$stateParams',function ($scope, $http, $stateParams) {
 
-    $http.get('/tickets/'+ $stateParams.id).success(function (res) {
-        $scope.ticket = res;
-    });
+    var getSingleTicket = function(){
+    	$http.get('/tickets/'+ $stateParams.id).success(function (res) {
+			$scope.ticket = res;
+		});
+	};
+	
+	getSingleTicket(); //initial retrieval of ticket
+	
+    $scope.postComment = function (comment) {
+    	$http.put('/ticket/' + $stateParams.id + '/comment', $scope.comment).then(function (res) {
+			getSingleTicket(); //refresh listing
+    	},function (error) {
+    		console.log(error.data);
+    	});
+    }
 
 }]);

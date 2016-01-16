@@ -60,6 +60,13 @@ app.get('/tickets/:id', function (req, res) {
     });
 });
 
+app.put('/ticket/:id/comment', function (req, res) { //add a comment to ticket
+    Ticket.findOneAndUpdate({_id: req.params.id}, {$push: {comments: req.body}}, function (err, ticket) {
+        console.log(ticket);        
+    });
+    res.end();
+});
+
 app.put('/tickets/:id', function (req, res) {
     Ticket.findOneAndUpdate({_id: req.params.id}, req.body, function (err, ticket) {
         console.log('updated ' + ticket.title);

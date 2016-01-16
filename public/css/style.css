@@ -116,3 +116,30 @@ form#edit_ticket .val_status .required{
 form#edit_ticket .val_status .check{
 	color: green;
 }
+
+/* =-=-=-=-=-=-=-[ ticket view ]=-=-=-=-=-=-=- */
+
+.comments{
+	padding-left: 20px;
+}
+
+.comments .comment_author{
+	float: left;
+}
+
+.comments .comment_date{
+	float: right;
+}
+
+.comments small{
+	color: #cacaca;
+}
+
+.comments .comment_body{
+	clear: both;
+}
+
+
+
+
+
