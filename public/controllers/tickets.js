@@ -33,13 +33,14 @@ app.controller('showTickets', function ($scope, $http) {
 });
 
 // edit/create ticket
-app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeout', function ($scope, $http, $state, $stateParams, $timeout) {
+app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeout', '$location', function ($scope, $http, $state, $stateParams, $timeout, $location) {
 
+    //we handle both creating and updating here, using same partial
+    
     var state = $state.current.name; //get the state name
     $scope.state = state;
     $scope.editmode = false; //to dynamically show the correct submit button in the partial
     
-    //we handle both creating and updating here, using same partial
     if(state == "new_ticket"){
     
         $scope.header = "Create a new Ticket";
@@ -47,19 +48,22 @@ app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeo
         $scope.addTicket = function () {
             $http.post('/tickets', $scope.ticket).success(function (res) {
                 console.log('ticket added');
+                $location.path('/ticket/' + res._id);
             });
         };
+        
 
     }else if(state == "edit_ticket"){
         
-        $scope.header = "Update Ticket";
         $scope.editmode = true; //switch to true for the conditional in the partial
+        $scope.header = "Update Ticket";
         $scope.status_options = ['Pending','Unsolved','Solved']; //you can only set these options when editing
         
         $http.get('/tickets/' + $stateParams.id).success(function (res) {
             $scope.ticket = res;
         });
 
+		// =-=-=-=-=-=-=-[ update ticket ]=-=-=-=-=-=-=-
         $scope.updateTicket = function () {
             $http.put('/tickets/' + $scope.ticket._id, $scope.ticket).success(function (res) {
                 console.log('ticket updated');
@@ -71,6 +75,16 @@ app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeo
                 $scope.message_class = 'hide_message';
             },5000);
         };
+        
+		// =-=-=-=-=-=-=-[ delete ticket ]=-=-=-=-=-=-=-
+        $scope.deleteTicket = function (ticketID) {
+        	$http.delete('/tickets/' + ticketID).then(function (res) {
+        		console.log('deleted ticket id ', ticketID);
+        		$location.path('/');
+        	}, function (err) {
+        		console.log(err.data);
+        	});
+        }
        
     }
 
@@ -89,6 +103,7 @@ app.controller('showTicket',['$scope','$http','$stateParams',function ($scope, $
 	
     $scope.postComment = function (comment) {
     	$http.put('/ticket/' + $stateParams.id + '/comment', $scope.comment).then(function (res) {
+    		$scope.comment = {}; //clear out form
 			getSingleTicket(); //refresh listing
     	},function (error) {
     		console.log(error.data);

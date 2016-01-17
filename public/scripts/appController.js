@@ -26,7 +26,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         })
         .state('edit_ticket',{
             url: '/tickets/:id/edit',
-            templateUrl: "/partials/tickets_edit.html",
+            templateUrl: "/partials/ticket_edit.html",
             controller: 'editTicket'
         })
         .state('users',{
@@ -51,8 +51,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 app.filter('truncateDesc', function () {
     return function (desc) {
         if(desc){
-            desc = desc.substring(0, 100);
-            desc += '...';
+            if(desc.length > 99){
+                desc = desc.substring(0, 100);
+                desc += '...';
+            }
             return desc;
         }else{
             return '';

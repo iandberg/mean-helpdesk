@@ -48,10 +48,10 @@ app.get('/tickets/unsolved', function (req, res) { //not in use
 });
 
 app.post('/tickets', function (req, res) {
-    Ticket.create(req.body, function (err) {
+    Ticket.create(req.body, function (err, ticket) {
         console.log('ticket saved');
+        res.json(ticket);
     });
-    res.end();
 });
 
 app.get('/tickets/:id', function (req, res) {
@@ -69,9 +69,15 @@ app.put('/ticket/:id/comment', function (req, res) { //add a comment to ticket
 
 app.put('/tickets/:id', function (req, res) {
     Ticket.findOneAndUpdate({_id: req.params.id}, req.body, function (err, ticket) {
-        console.log('updated ' + ticket.title);
+        console.log('updated "' + ticket.title +'"');
     });
     res.end();
+});
+
+app.delete('/tickets/:id', function (req, res) {
+    Ticket.remove({_id: req.params.id}, function (err, ticket) {
+        res.json(ticket);
+    });
 });
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -101,7 +107,6 @@ app.post('/login', function (req, res) {
     
     User.findOne({email: req.body.email}, function (err, user) {
         if(user){
-            console.log(user.password);
             if(bcrypt.compareSync(req.body.password, user.password)){ //compare submitted pass to user pass
                 console.log('logged in!'); //succesful login
 //                 if(!req.session.loggedIn){
