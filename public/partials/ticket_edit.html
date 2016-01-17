@@ -59,13 +59,17 @@
 
             <!--  show status and assigned if in edit mode -->
             <div class="row" ng-if="editmode">
+                <div class="medium-1 columns val_status">
+                    <div ng-show="ticket_form.assigned.$error.required" class="required"><i class="fa fa-asterisk"></i></div>
+                    <div ng-show="!ticket_form.assigned.$error.required" class="check"><i class="fa fa-check"></i></div>
+                </div>
                 <div class="medium-11 medium-offset-1 columns">
                     <input ng-model="ticket.assigned" type="text" placeholder="Assigned To" required>
                 </div>
             </div>
 
             <div class="row" ng-if="editmode">
-                <div class="medium-11 medium-offset-1 columns">
+                <div class="medium-11 columns">
                     <div>
                         <label for="status" ng-if="editmode">Status</label>
                     </div>

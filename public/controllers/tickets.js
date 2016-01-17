@@ -105,7 +105,7 @@ app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeo
 
 }]);
 
-// show single ticket, and update certain features
+// show single ticket, and add comments
 app.controller('showTicket',['$scope','$http','$stateParams',function ($scope, $http, $stateParams) {
 
     var getSingleTicket = function(){

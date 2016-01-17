@@ -3,7 +3,7 @@
     ul.menu
       li.menu-text= title
   .top-bar-right
-    ul.menu
+    ul(ng-cloak='').menu
       li(ng-show='userName') 
         | Welcome {{userName}}
 
