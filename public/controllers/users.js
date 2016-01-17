@@ -11,7 +11,7 @@ app.controller('loginUser', function ($scope, $http, $state, $location, Session)
 					$scope.message = res.data.error;
 				}else{ //succesful login
 					Session.create(res.data); //user data to angular session var
-					$scope.setUserName(res.data.name.first) //set site-wide username via appCtrl function
+					$scope.setSession(res.data) //set site-wide username via appCtrl function
 					$location.path('/'); //redirect to homepage
 				}
 			},function error(res) {
@@ -20,7 +20,7 @@ app.controller('loginUser', function ($scope, $http, $state, $location, Session)
 	}
 });
 
-app.controller('editUser', function ($scope, $http, $state, $stateParams) {
+app.controller('editUser', function ($scope, $http, $state, $stateParams, Flash, $location) {
 	
 	var state = $state.current.name;
 	$scope.state = state;
@@ -28,7 +28,6 @@ app.controller('editUser', function ($scope, $http, $state, $stateParams) {
 	
 	if(state == 'new_user'){
 		$scope.header = "Create Account";
-		$scope.myvalue = "supercali"; //testing
 		
 		$scope.addUser = function () {
 			$http.post('/users', $scope.user).success(function (res) {
@@ -36,8 +35,26 @@ app.controller('editUser', function ($scope, $http, $state, $stateParams) {
 			});
 		};
 		
-	}else if(state == 'edit_user'){
-		$scope.editmode = true; //for enabling correct submit button in partial
+	}else if(state == 'edit_user' && $scope.userName){
+		$scope.editmode = true; // for enabling correct submit button in partial
+		$scope.header = "Edit Account";
+		
+		$http.get('/users/' + $stateParams.id).then(function (res) {
+			res.data.password = ''; // hashed password not needed
+			$scope.user = res.data;
+		}, function (err) {
+			console.log(err.data);
+		});
+		
+		$scope.updateUser = function (user) {
+			$http.put('/users/' + $scope.user._id, user).then(function (res) {
+				Flash.create('success', 'Account Updated');
+			}, function (err) {
+				console.log(err);
+			});
+		};
+	}else{
+		$location.path('/');
 	}
 
 });

@@ -116,19 +116,41 @@ app.service('Session', function () {
 
 // =-=-=-=-=-=-=-[ root controller ]=-=-=-=-=-=-=-
 
-app.controller('appCtrl', ['$scope','$http', 'Session', function ($scope, $http, Session) {
+app.controller('appCtrl', ['$scope','$http', 'Session', '$location', function ($scope, $http, Session, $location) {
 
     $scope.userName = null; //initialize user name, until someone logs in
     // need to check node session for user, in case page is refreshed
     
-    $scope.setUserName = function (name) { //available in all controller scopes
-        $scope.userName = name;
+    $scope.setSession = function (user) { //available in all controller scopes
+        $scope.userName = user.name.first;
+        $scope.userID = user._id;
     };
     
     $scope.logout = function () {
         Session.destroy();
         $scope.userName = null;
+        $http.get('/user/end_session').then(function (res) {
+
+        },function (err) {
+            console.log(err);
+        });
+        
+        $location.path('/'); //return to home page
     };
+
+    $scope.checkUser = function () {
+        $http.get('/user/log_status').then(function (res) {
+            
+            if(res.data.loggedIn){ //if session on express has user, then transfer to angular
+                $scope.setSession({name: {first: res.data.userName}, _id: res.data.userID });
+            }
+            
+        },function (err) {
+            console.log(err);
+        });
+    };
+    
+    $scope.checkUser(); // check for user on express session, if page is reloaded
 
 }]);
 

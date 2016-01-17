@@ -4,20 +4,23 @@
       li.menu-text= title
   .top-bar-right
     ul.menu
+      li(ng-show='userName') 
+        | Welcome {{userName}}
+
       li
         a(ui-sref='home') Home
-        
-      li(ng-if='userName') 
-        | Welcome {{userName}}
-        
-      li(ng-if='!userName') 
+                
+      li(ng-show='!userName') 
         a(ui-sref='login') Log In
         
-      li(ng-if='userName') 
+      li(ng-show='userName') 
         a(ng-click='logout()') Log Out
         
-      li
+      li(ng-show='!userName')
         a(ui-sref='new_user') New Account
+
+      li(ng-show='userName') 
+        a(ui-sref='edit_user({id: userID})') Edit Account
         
       li
         a(ui-sref='new_ticket') New Ticket
@@ -29,8 +32,14 @@
         
     .medium-6.columns
         p An app built with the MEAN stack
-        ul
-            li MongoDB
-            li Express.js
-            li Angular.js
-            li Node.js
+        #codelist
+            ul
+                li MongoDB
+                li Express.js
+                li Angular.js
+                li Node.js
+            ul
+                li 
+                  i also...
+                li Jade
+                li Foundation

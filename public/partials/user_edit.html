@@ -3,29 +3,15 @@
         <h1>{{header}}</h1>
         <form novalidate name="user_form"> <!-- form name is an object with form stats in it, see submit buttons -->
             <input ng-model="user.name.first" name="first" type="text" placeholder="First Name" required>
-            <div ng-messages="user_form.first.$error" class="callout alert">
-                <div ng-message="required">Required</div>
-            </div>
                 
             <input ng-model="user.name.last" name="last" type="text" placeholder="Last Name" required>
-                <div ng-messages="user_form.last.$error" class="callout alert">
-                    <div ng-message="required">Required</div>
-                </div>
                 
             <input ng-model="user.email" name="email" type="email" placeholder="Email" required>
-                <div ng-messages="user_form.email.$error" class="callout alert">
-                    <div ng-message="required">Required</div>
-                </div>
                 
             <input ng-model="user.password" min="4" name="password" type="password" placeholder="Password" required>
-                <div ng-messages="user_form.password.$error" class="callout alert">
-                    <div ng-message="required">Required</div>
-                </div>
+
             <input ng-model="user.password_conf" name="password_conf" type="password" placeholder="Repeat Password" required>
-                <div ng-if="user.password_conf !== user.password">Passwords need to match</div>
-                <div ng-messages="user_form.password_conf.$error" class="callout alert">
-                    <div ng-message="required">Required</div>
-                </div>
+            <div class="val_errors" ng-show="user.password_conf !== user.password">Passwords need to match</div>
 
         	<input  type="submit" 
                     value="create" 
@@ -35,10 +21,13 @@
                     
         	<input  type="submit"
         	        value="update" 
-        	        ng-click="updateUser()"
+        	        ng-click="updateUser(user)"
                     ng-disabled="user_form.$invalid" 
         	        ng-if="editmode">
 
+			<div class="form_link" ng-if="!editmode">
+				<a ui-sref="login">Log in</a>
+			</div>
         </form>
                 
 

@@ -2,12 +2,16 @@
     <div class="medium-3 columns">
         <h4>{{ticket.title}}</h4>
         <div class="">
-            <ul>
-                <li>{{ticket.created_on | formatDate }}</li>
-                <li>Author: {{ticket.author}}</li>
-                <li>Urgency: {{ticket.urgency}}</li>
-                <li>Assigned to: {{ticket.assigned}}</li>
-            </ul>
+            <dl>
+                <dt>Date</dt>
+                <dd>{{ticket.created_on | formatDate }}</dd>
+                <dt>Client</dt>
+                <dd>{{ticket.author}}</dd>
+                <dt>Priority</dt>
+                <dd>{{ticket.urgency}}</dd>
+                <dt>Assigned to</dt>
+                <dd>{{ticket.assigned}}</dd>
+            </dl>
         </div>
     </div>
     <div class="medium-8 columns">
@@ -63,7 +67,6 @@
 
 			</div>
 		</div>
-        <a ui-sref="edit_ticket({id: ticket._id})">Edit Ticket</a>
     </div>
 </div>
 

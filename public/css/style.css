@@ -66,6 +66,34 @@ ul{
 	list-style: none;
 }
 
+/* =-=-=-=-=-=-=-[ general ]=-=-=-=-=-=-=- */
+
+/* taken from: */
+/* https://coolors.co/app/a2faa3-92c9b1-4f759b-5d5179-571f4e */
+
+.top-bar,
+.top-bar ul{
+	background-color: #92C9B1;
+}
+.top-bar a{
+	color: #5D5179;
+}
+.callout.primary{
+	background-color: #4F759B;
+}
+
+/* =-=-=-=-=-=-=-[ header ]=-=-=-=-=-=-=- */
+
+#codelist{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+#codelist ul{
+	width: 100px;
+}
 
 /* =-=-=-=-=-=-=-[ forms ]=-=-=-=-=-=-=- */
 
@@ -81,6 +109,14 @@ ul{
 
 form.ng-invalid [type=submit]{
 	opacity: .5;
+}
+
+.form_link {
+	margin-top: 20px;
+}
+
+.ng-untouched + .val_errors{
+	display: none;
 }
 
 /* =-=-=-=-=-=-=-[ edit/create ticket ]=-=-=-=-=-=-=- */

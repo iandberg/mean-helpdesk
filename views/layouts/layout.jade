@@ -6,7 +6,9 @@ html
         link(rel="stylesheet" href="/css/style.css" type="text/css")
         link(rel="stylesheet" href="/css/font-awesome.min.css" type="text/css")
         link(rel="stylesheet" href="/bower_components/angular-flash-alert/dist/angular-flash.min.css" type="text/css")
-    body(ng-app="app"  ng-controller='appCtrl')
+        
+    body(ng-app="app" ng-controller='appCtrl' ng-init='checkUser()')
+    
         include ../includes/header.jade
         
         block content

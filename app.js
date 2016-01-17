@@ -62,7 +62,7 @@ app.get('/tickets/:id', function (req, res) {
 
 app.put('/ticket/:id/comment', function (req, res) { //add a comment to ticket
     Ticket.findOneAndUpdate({_id: req.params.id}, {$push: {comments: req.body}}, function (err, ticket) {
-        console.log(ticket);        
+        console.log('ticket updated');
     });
     res.end();
 });
@@ -75,7 +75,7 @@ app.put('/tickets/:id', function (req, res) {
 });
 
 app.delete('/tickets/:id', function (req, res) {
-    Ticket.remove({_id: req.params.id}, function (err, ticket) {
+    Ticket.findOneAndRemove({_id: req.params.id}, function (err, ticket) {
         res.json(ticket);
     });
 });
@@ -90,15 +90,23 @@ app.get('/users', function (req, res) {
 
 app.get('/users/:id', function (req, res) {
     User.findOne({_id: req.params.id}, function (err, user) {
-        res.json(user.name.full); //using a 'virtual' method to combine first and last name
+        res.json(user);
     });
 });
 
 
 app.post('/users', function (req, res) {
-    req.body.password = bcrypt.hashSync(req.body.password,3); //encrypt the password (put salt in external file)
+    req.body.password = bcrypt.hashSync(req.body.password,3); 
     User.create(req.body, function (err) {
         console.log('user saved');
+    });
+});
+
+app.put('/users/:id', function (req, res) {
+    req.body.password = bcrypt.hashSync(req.body.password,3);
+    User.findOneAndUpdate({_id: req.params.id}, req.body, function (err, user) {
+        console.log('updated');
+        res.json(user);
     });
 });
 
@@ -109,22 +117,30 @@ app.post('/login', function (req, res) {
         if(user){
             if(bcrypt.compareSync(req.body.password, user.password)){ //compare submitted pass to user pass
                 console.log('logged in!'); //succesful login
-//                 if(!req.session.loggedIn){
-//                     req.session.loggedIn = true;
-//                     req.session.userName = user.name.first;
-//                     req.session.userID = user.id;
-//                 }
+                if(!req.session.loggedIn){
+                    req.session.loggedIn = true;
+                    req.session.userName = user.name.first;
+                    req.session.userID = user.id;
+                }
                 res.json(user);
             }else{
-                console.log('one or both fields is not right');
                 data.error = 'one or both fields is not right';
                 res.json(data);
             }  
         }else{
-            console.log('cannot find user');
             data.error = 'cannot find user';
             res.json(data);
         }
+    });
+});
+
+app.get('/user/log_status', function (req, res) {
+    res.json(req.session);
+})
+
+app.get('/user/end_session', function (req, res) {
+    req.session.destroy(function (err) {
+        res.json(err);
     });
 });
 

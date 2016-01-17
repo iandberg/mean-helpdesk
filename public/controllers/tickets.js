@@ -87,21 +87,25 @@ app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeo
         };
         
 		// =-=-=-=-=-=-=-[ delete ticket ]=-=-=-=-=-=-=-
+		
         $scope.deleteTicket = function (ticketID) {
-        	$http.delete('/tickets/' + ticketID).then(function (res) {
-        		console.log('deleted ticket id ', ticketID);
-        		$location.path('/');
-        		Flash.create('warning', 'Ticket deleted');
-        	}, function (err) {
-        		console.log(err.data);
-        	});
+        
+        	if(confirm("Are you sure?")){
+				$http.delete('/tickets/' + ticketID).then(function (res) {
+					console.log('deleted ticket id ', ticketID);
+					$location.path('/');
+					Flash.create('warning', 'Ticket deleted');
+				}, function (err) {
+					console.log(err.data);
+				});
+			}
         }
        
     }
 
 }]);
 
-// show single ticket
+// show single ticket, and update certain features
 app.controller('showTicket',['$scope','$http','$stateParams',function ($scope, $http, $stateParams) {
 
     var getSingleTicket = function(){
