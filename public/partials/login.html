@@ -7,11 +7,12 @@
                 
             <input ng-model="user.password" name="password" type="password" placeholder="Password" required>
 
+            <div class="form-error is-visible">{{message}}</div>
+            
         	<input  type="submit" 
                     value="login" 
                     ng-click="login(user)">
-                    
-			{{message}}
+
         </form>
                 
     </div>

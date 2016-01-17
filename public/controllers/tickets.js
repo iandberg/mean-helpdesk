@@ -2,6 +2,7 @@
 
 // show all tickets
 app.controller('showTickets', function ($scope, $http) {
+
     $scope.getTickets = function () {
         $http.get('/tickets').success(function (res) {
             $scope.tickets = res;
@@ -33,7 +34,7 @@ app.controller('showTickets', function ($scope, $http) {
 });
 
 // edit/create ticket
-app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeout', '$location', function ($scope, $http, $state, $stateParams, $timeout, $location) {
+app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeout', '$location', 'Flash', function ($scope, $http, $state, $stateParams, $timeout, $location, Flash) {
 
     //we handle both creating and updating here, using same partial
     
@@ -48,6 +49,7 @@ app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeo
         $scope.addTicket = function () {
             $http.post('/tickets', $scope.ticket).success(function (res) {
                 console.log('ticket added');
+                Flash.create('success', 'Ticket added');
                 $location.path('/ticket/' + res._id);
             });
         };
@@ -59,16 +61,24 @@ app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeo
         $scope.header = "Update Ticket";
         $scope.status_options = ['Pending','Unsolved','Solved']; //you can only set these options when editing
         
-        $http.get('/tickets/' + $stateParams.id).success(function (res) {
-            $scope.ticket = res;
-        });
-
+        var getTicket = function (){
+        	$http.get('/tickets/' + $stateParams.id).success(function (res) {
+				if(res){
+					$scope.ticket = res;
+				}else{
+					$location.path('/');
+				}
+			});
+		};
+		
+		getTicket(); //initial ticket retrieval
+		
 		// =-=-=-=-=-=-=-[ update ticket ]=-=-=-=-=-=-=-
+		
         $scope.updateTicket = function () {
             $http.put('/tickets/' + $scope.ticket._id, $scope.ticket).success(function (res) {
-                console.log('ticket updated');
-                $scope.message_class = ['success','callout'];
-                $scope.message = "Ticket updated";
+				getTicket();
+				Flash.create('success', 'Ticket updated');
             });
 
             $timeout(function () { // remove update message
@@ -81,6 +91,7 @@ app.controller('editTicket', ['$scope','$http','$state', '$stateParams', '$timeo
         	$http.delete('/tickets/' + ticketID).then(function (res) {
         		console.log('deleted ticket id ', ticketID);
         		$location.path('/');
+        		Flash.create('warning', 'Ticket deleted');
         	}, function (err) {
         		console.log(err.data);
         	});

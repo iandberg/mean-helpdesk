@@ -12,8 +12,8 @@
 	width: 100%;
 }
 
-[ui-view].ng-enter,
-[ui-view].ng-leave {
+.ng-enter,
+.ng-leave {
 	 -webkit-transition: .5s linear all;
 	 transition: .5s linear all;
 }
