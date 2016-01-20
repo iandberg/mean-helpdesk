@@ -6,10 +6,11 @@ var bcrypt = require('bcryptjs');
 var session = require('express-session');
 
 
-
 // =-=-=-=-=-=-=-[ database ]=-=-=-=-=-=-=-
 
-require('./database'); //execute the database file
+
+require('./database')(process.env.MONGOLAB_URI || 'mongodb://localhost/meanhelpdesk'); 
+//if the env var isn't set, use local
 
 // =-=-=-=-=-=-=-[ session ]=-=-=-=-=-=-=-
 
@@ -35,7 +36,6 @@ var Ticket = require('./models/ticket');
 var User = require('./models/user');
 
 app.get('/tickets', function (req, res) {
-    console.log(req.session);
     Ticket.findAllRecent(function (err, tickets) { // static method defined in model file
         res.json(tickets);
     });

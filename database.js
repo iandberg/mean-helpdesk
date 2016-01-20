@@ -1,9 +1,12 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/meanhelpdesk');
-var db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'connection error:'));
+module.exports = function (url) {
+	mongoose.connect(url);
+	var db = mongoose.connection;
 
-db.once('open', function () {
-    console.log('database connected');    
-});
+	db.on('error', console.error.bind(console, 'connection error:'));
+
+	db.once('open', function () {
+		console.log('database connected');    
+	});
+}
