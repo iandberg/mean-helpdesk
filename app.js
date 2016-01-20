@@ -5,9 +5,12 @@ var bodyParser = require('body-parser');
 var bcrypt = require('bcryptjs');
 var session = require('express-session');
 
+// =-=-=-=-=-=-=-[ port ]=-=-=-=-=-=-=-
+
+app.set('port', (process.env.PORT || 3050));
+
 
 // =-=-=-=-=-=-=-[ database ]=-=-=-=-=-=-=-
-
 
 require('./database')(process.env.MONGOLAB_URI || 'mongodb://localhost/meanhelpdesk'); 
 //if the env var isn't set, use local
@@ -152,6 +155,6 @@ app.use(function (req, res) {
 
 // =-=-=-=-=-=-=-[ monitor port ]=-=-=-=-=-=-=-
 
-app.listen(3050, function () {
-    console.log('listening on port 3050');
+app.listen(app.get('port'), function () {
+    console.log('listening on: ', app.get('port'));
 });
