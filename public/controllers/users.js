@@ -1,6 +1,6 @@
 // =-=-=-=-=-=-=-[ create/edit users ]=-=-=-=-=-=-=-
 
-app.controller('loginUser', function ($scope, $http, $state, $location, Session) {
+app.controller('loginUser', function ($scope, $http, $state, $location, Session, Flash) {
 	
 	$scope.header = "Login";
 	
@@ -12,6 +12,7 @@ app.controller('loginUser', function ($scope, $http, $state, $location, Session)
 				}else{ //succesful login
 					Session.create(res.data); //user data to angular session var
 					$scope.setSession(res.data) //set site-wide username via appCtrl function
+					Flash.create('success', 'Logged In!');
 					$location.path('/'); //redirect to homepage
 				}
 			},function error(res) {
@@ -31,7 +32,8 @@ app.controller('editUser', function ($scope, $http, $state, $stateParams, Flash,
 		
 		$scope.addUser = function () {
 			$http.post('/users', $scope.user).success(function (res) {
-				console.log('created user');
+				Flash.create('success', 'Account created - please log in');
+				$location.path('/login');
 			});
 		};
 		
@@ -60,7 +62,21 @@ app.controller('editUser', function ($scope, $http, $state, $stateParams, Flash,
 });
 
 app.controller('allUsers', function ($scope, $http) {
-	$http.get('/users').success(function (res) {
-		$scope.users = res;
-	});
+	
+	var getAllUsers = function () {	
+		$http.get('/users').success(function (res) {
+			$scope.users = res;
+		});
+	}
+	
+	getAllUsers();
+	
+	$scope.deleteUser = function (id) {
+		if(confirm("Are you sure?")){
+			$http.delete('/users/' + id).success(function (res) {
+				console.log('user: ', id, 'deleted');
+				getAllUsers(); //refresh listing
+			});
+		}
+	}
 });

@@ -103,6 +103,7 @@ app.post('/users', function (req, res) {
     User.create(req.body, function (err) {
         console.log('user saved');
     });
+    res.end();
 });
 
 app.put('/users/:id', function (req, res) {
@@ -112,6 +113,14 @@ app.put('/users/:id', function (req, res) {
         res.json(user);
     });
 });
+
+app.delete('/users/:id', function (req, res) {
+    User.findOneAndRemove({_id: req.params.id}, function (err, user) {
+        res.json(user);
+    });
+});
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 app.post('/login', function (req, res) {
     var data = {};

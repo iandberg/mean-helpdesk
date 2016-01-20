@@ -23,12 +23,14 @@
                 <h3>{{ticket.title}}</h3>
             </a>
                 <ul>
-                    <li>{{ticket.created_on | formatDate}}</li>
-                    <li>By {{ticket.author}}</li>
-                    <li ng-class="statusClass(ticket.status)" class="button">{{ticket.status}}</li>
+                    <li class="ticket_date">{{ticket.created_on | formatDate}}</li>
+                    <li class="ticket_author">By {{ticket.author}}</li>
+                    <li ng-class="statusClass(ticket.status)" class="button ticket_status">{{ticket.status}}</li>
                 </ul>
                 <p>{{ticket.description | truncateDesc}}</p>
         </section>
 
     </div>
 </div>
+
+<div ng-include="'/partials/footer.html'"></div>

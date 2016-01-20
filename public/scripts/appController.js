@@ -116,7 +116,7 @@ app.service('Session', function () {
 
 // =-=-=-=-=-=-=-[ root controller ]=-=-=-=-=-=-=-
 
-app.controller('appCtrl', ['$scope','$http', 'Session', '$location', function ($scope, $http, Session, $location) {
+app.controller('appCtrl', ['$scope','$http', 'Session', '$location', 'Flash', function ($scope, $http, Session, $location, Flash) {
 
     $scope.userName = null; //initialize user name, until someone logs in
     // need to check node session for user, in case page is refreshed
@@ -134,7 +134,8 @@ app.controller('appCtrl', ['$scope','$http', 'Session', '$location', function ($
         },function (err) {
             console.log(err);
         });
-        
+
+        Flash.create('success', 'You are now logged out');
         $location.path('/'); //return to home page
     };
 

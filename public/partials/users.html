@@ -1,33 +1,18 @@
 <div class="row" id="content">
     <div class="medium-3 columns">
-        <p>Filter</p>
-        <ul>
-            <li>
-                <a ng-click="search_criteria = {}">All Tickets</a>
-            </li>
-            <li>
-                <a ng-click="search_criteria = {field: 'status', regex: 'Unsolved'}">Unsolved Tickets</a>        
-            </li>
-            <li>
-                <a ng-click="search_criteria = {field: 'status', regex: '^Solved'}">Solved Tickets</a>        
-            </li>
-            <li>
-                <a ng-click="search_criteria = {field: 'status', regex: '^Pending'}">Pending Tickets</a>        
-            </li>
-        </ul>
     </div>
 	<div class="medium-8 columns">
 
-		<div class="user callout" ng-repeat="user in users">
+		<div class="user callout" ng-repeat="user in users | orderBy : '-created_on'">
             <a ui-sref="edit_user({id: user._id})">
             {{user._id}}
-            <h3>{{user.name.first}}</h3>
-            <h3>{{user.name.last}}</h3>
+            <h3>{{user.name.first}} {{user.name.last}}</h3>
+            <h3>{{user.email}}</h3>
             </a>
             <ul>
                 <li>{{user.created_on | formatDate}}</li>
             </ul>
-
+			<a ng-click="deleteUser(user._id)">Delete user</a>
         </div>
 
     </div>
